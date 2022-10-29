@@ -1,0 +1,8 @@
+Домашка по IS: написать минимум 15 правил по своему проекту (прислать индивидуально, не от группы) - хотя бы по 3 правила в каждую из 5 групп:
+- class-class rules
+- class-property rules
+- property-class rules
+- property-property rules
+- property-property rules (different subjects)
+Подробно примерно на 49 минуте в записи
+
