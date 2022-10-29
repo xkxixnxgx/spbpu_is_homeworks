@@ -8,26 +8,27 @@ from rdflib import Graph
 g = Graph()
 g.parse(file=open("KBSPARQL.n3", "r"), format="text/n3")
 
-queries = {}
+class_label = "class_label"
+subfunction_label = "subfunction_label"
 
-labels_in_classes = g.query(
-   """SELECT DISTINCT ?label
-      WHERE {
-         ?ind rdf:type ?classes.
-         ?ind rdfs:label ?label.
-      }""")
-queries["classes"] = labels_in_classes 
 
-labels_in_properties = g.query(
-   """SELECT DISTINCT ?label
-      WHERE {
-         ?ind prop:SubFunction ?function.
-         ?ind rdfs:label ?label.
-      }""")
-queries["properties"] = labels_in_properties
+query_result = g.query(
+   f"""SELECT DISTINCT ?function ?subFunction ?{class_label} ?{subfunction_label}
+      WHERE {{
+         ?function rdf:type ?classes.
+         ?subFunction prop:SubFunction ?function.
+         ?function rdfs:label ?{class_label}.
+         ?subFunction rdfs:label ?{subfunction_label}.
+      }}""")
 
-for selection, query in queries.items():
-   print(f'=======ind labels from {selection}======')
-   for row in query:
-      label = str(row.asdict()['label'].toPython())
-      print(label)
+
+for desired_label in (class_label, subfunction_label):
+   query_name = desired_label.split("_")[0]
+   print(f'=======labels from {query_name}======')
+
+   labels = set()
+   for row in query_result:
+      func_name = str(row.asdict()[desired_label].toPython())
+      if func_name not in list(labels):
+         labels.add(func_name)
+         print(func_name)
