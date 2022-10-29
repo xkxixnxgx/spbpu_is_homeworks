@@ -28,7 +28,7 @@ for desired_label in (class_label, subfunction_label):
 
    labels = set()
    for row in query_result:
-      func_name = str(row.asdict()[desired_label].toPython())
-      if func_name not in list(labels):
-         labels.add(func_name)
-         print(func_name)
+      label = str(row.asdict()[desired_label].toPython())
+      if label not in list(labels):
+         labels.add(label)
+         print(label)
